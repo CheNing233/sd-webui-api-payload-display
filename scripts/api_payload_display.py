@@ -22,6 +22,8 @@ from modules.processing import (
     StableDiffusionProcessingImg2Img,
 )
 
+from dataclasses import dataclass, fields
+
 BASE64_IMAGE_PLACEHOLDER = "base64image placeholder"
 
 
@@ -246,6 +248,17 @@ class Script(scripts.Script):
         You can modify the processing object (p) here, inject hooks, etc.
         args contains all values returned by components from ui()
         """
+
+        print("=======================================\n")
+
+        # 遍历输出所有属性和值
+        for field in fields(p):
+            if field.name == "sd_model":
+                continue
+            print(f"{field.name}: {getattr(p, field.name)}")
+
+        print("=======================================\n")
+
         is_img2img = isinstance(p, StableDiffusionProcessingImg2Img)
         api_request = (
             StableDiffusionImg2ImgProcessingAPI
